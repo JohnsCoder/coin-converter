@@ -25,11 +25,11 @@ function App() {
 
   useEffect(() => {
     function getInfo() {
-      const coinTemplate = `${coins.firstCoin || "USD"}${
-        coins.secoundCoin || "BRL"
+      const coinTemplate = `${coins['first-coin'] || "USD"}${
+        coins['secound-coin'] || "BRL"
       }`;
       api
-        .get(`/last/${coins.firstCoin || "USD"}-${coins.secoundCoin || "BRL"}`)
+        .get(`/last/${coins['first-coin'] || "USD"}-${coins['secound-coin'] || "BRL"}`)
         .then((res) => {
           const { code, codein, high, create_date } = res.data[coinTemplate];
           const [firstName, secoundName] = [
@@ -65,7 +65,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      secoundValue: (dataCoins.data[4] * value.firstValue).toFixed(3),
+      'secound-value': (dataCoins.data[4] * value['first-value']).toFixed(3),
     }));
   }
 
@@ -77,7 +77,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      firstValue: (value.secoundValue / dataCoins.data[4]).toFixed(3),
+      'first-value': (value['secound-value'] / dataCoins.data[4]).toFixed(3),
     }));
   }
 
@@ -90,9 +90,9 @@ function App() {
       <div className="coins">
         <div>
           <select
-            name="firstCoin"
+            name="first-coin"
             onChange={handleCoinChange}
-            value={coins.firstCoin || "USD"}
+            value={coins['first-coin'] || "USD"}
           >
             {typeof allCoins !== "undefined" &&
               allCoins.map((e, y) => {
@@ -107,19 +107,19 @@ function App() {
           </select>
           <hr />
           <input
-            name="firstValue"
+            name="first-value"
             type="number"
             placeholder="10,00"
             onChange={handleUpdateSecoundValue}
-            value={value.firstValue || ""}
+            value={value['first-value'] || ""}
           />
         </div>
 
         <div>
           <select
-            name="secoundCoin"
+            name='secound-coin'
             onChange={handleCoinChange}
-            value={coins.secoundCoin || "BRL"}
+            value={coins['secound-coin'] || "BRL"}
           >
             {typeof allCoins !== "undefined" &&
               allCoins.map((e, y) => {
@@ -128,11 +128,11 @@ function App() {
           </select>
           <hr />
           <input
-            name="secoundValue"
+            name='secound-value'
             type="number"
             placeholder="10,00"
             onChange={handleUpdateFirstValue}
-            value={value.secoundValue || ""}
+            value={value['secound-value'] || ""}
           />
         </div>
       </div>
@@ -146,7 +146,7 @@ function App() {
               <span>
                 {typeof dataCoins !== "undefined" &&
                   `${dataCoins.data[0]}/${dataCoins.data[2]}`}{" "}
-                - {value.firstValue || 0}
+                - {value['first-value'] || 0}
               </span>
             </div>
 
@@ -154,7 +154,7 @@ function App() {
               <span>
                 {typeof dataCoins !== "undefined" &&
                   `${dataCoins.data[1]}/${dataCoins.data[3]}`}{" "}
-                - {value.secoundValue || 0}
+                - {value['secound-value'] || 0}
               </span>
             </div>
           </div>
