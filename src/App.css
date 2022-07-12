@@ -18,6 +18,7 @@
   flex-direction: column;
   justify-content: center;
   background-color: var(--mint-cream);
+  height: 100vh;
 }
 
 header {
@@ -36,7 +37,7 @@ header span {
 
 .coins {
   display: flex;
-  margin-top: 110px;
+  margin-top: 10vh;
   color: var(--jet);
   justify-content: space-around;
 }
@@ -95,10 +96,10 @@ input::-webkit-inner-spin-button {
 
 .info-coins {
   display: flex;
-  margin-top: 100px;
   justify-content: center;
   font-family: "Roboto", sans-serif;
   color: var(--jet);
+  height: 100%;
 }
 
 .info-coins > div {
@@ -163,20 +164,22 @@ input::-webkit-inner-spin-button {
   .coins {
     flex-direction: column;
     align-items: center;
+    margin-top: 7vh;
   }
 
   .coins div {
-    margin: 20px;
+    margin-bottom: 7vh;
   }
 
   .info-coins > div > span {
-    margin-bottom:30px;
+    margin-bottom:3.5vh;
   }
 
   .info-coins > div {
-    height: 48.7vh;
+    height: 99.8%;
     width: 100%;
     border-radius: unset;
+    border: none;
     border-top: solid 1px;
   }
 
@@ -187,6 +190,6 @@ input::-webkit-inner-spin-button {
   }
 
   .info-coins > div > div:nth-child(3) {
-    height: 50%;
+    height: 47%;
   }
 }
