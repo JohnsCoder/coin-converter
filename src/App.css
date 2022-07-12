@@ -1,38 +1,176 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header {
+  display: flex;
+  height: 90px;
+  background-color: #373d58;
+  align-items: center;
+  box-shadow: #00000084 0px 1px 40px;
+}
+header span {
+  font-size: 3em;
+  font-family: "Playfair Display", serif;
+  margin: 20px;
+  color: #fff;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.coins {
+  margin-top: 110px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.coins div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+  height: 58px;
+  width: 250px;
+  border-radius: 5px;
+  background-color: #8b95b3;
+}
+
+.coins div:nth-child(1) {
+  float: left;
+  margin-left: 5%;
+}
+
+.coins div:nth-child(2) {
+  float: right;
+  margin-right: 5%;
+}
+
+.coins select {
+  width: 30%;
+  border: none;
+  outline: none;
+  background-color: #8b95b3;
+  font-family: Playfair Display;
+  font-size: 1.4em;
+  font-weight: 800;
+}
+
+.coins option{
+  background-color: #cdcbcb;
+}
+
+.coins hr {
+  height: 30px;
+  width: 1px;
+  margin: 0 5px;
+  background-color: black;
+  border: none;
+}
+
+.coins input {
+  width: 30%;
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+
+  background-color: #8b95b3;
+  border: none;
+  outline: none;
+
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.invert-coins {
+  display: flex;
+  justify-content: center;
+  margin-top: 37px;
+}
+
+.invert-coins button {
+  height: 68px;
+  width: 128px;
+  border-radius: 5px;
+  background-color: #5f5b58;
+}
+.invert-coins i {
+  width: 70%;
+  font-size: 30px;
+}
+
+.invert-coins > button i:nth-child(1) {
+  margin-right: 30%;
+}
+
+.invert-coins > button i:nth-child(2) {
+  margin-left: 30%;
+}
+
+.info-coins {
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+}
+
+.info-coins > div {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #cdcbcb;
+  height: 50vh;
+  width: 90%;
+  border-radius: 10px;
+  border: solid 1px;
+  box-shadow: rgba(0, 0, 0, 0.151) 10px 10px 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.info-coins > div > span {
+  align-self: flex-start;
+  margin: 30px 30px 60px 30px;
+  font-size: 2em;
+  font-weight: 800;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.info-coins > div > div:nth-child(2) {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-bottom: 40px;
 }
+
+.info-coins > div > div div {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  width: 30%;
+  height: 60px;
+  background-color: #7d7878;
+  font-size: 1.2em;
+  padding-left: 20px;
+  border-radius: 8px;
+}
+
+.info-coins > div > div:nth-child(3) {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  height: 40%;
+  background-color: #2d2925;
+  font-size: 1.5em;
+  border-radius: 5px;
+}
+
+.info-coins > div > div:nth-child(3) span{
+  padding: 10px;
+  color: #fff;
+}
+
