@@ -52,6 +52,7 @@ header span {
   width: 300px;
   border-radius: 5px;
   background-color: var(--vivid-tangerine);
+  margin-bottom: 10vh;
 }
 
 .coins select {
@@ -164,11 +165,11 @@ input::-webkit-inner-spin-button {
   .coins {
     flex-direction: column;
     align-items: center;
-    margin-top: 7vh;
+    margin-top: 5vh;
   }
 
   .coins div {
-    margin-bottom: 7vh;
+    margin-bottom: 5vh;
   }
 
   .info-coins > div > span {
