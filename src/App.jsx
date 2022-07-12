@@ -25,11 +25,15 @@ function App() {
 
   useEffect(() => {
     function getInfo() {
-      const coinTemplate = `${coins['first-coin'] || "USD"}${
-        coins['secound-coin'] || "BRL"
+      const coinTemplate = `${coins["first-coin"] || "USD"}${
+        coins["secound-coin"] || "BRL"
       }`;
       api
-        .get(`/last/${coins['first-coin'] || "USD"}-${coins['secound-coin'] || "BRL"}`)
+        .get(
+          `/last/${coins["first-coin"] || "USD"}-${
+            coins["secound-coin"] || "BRL"
+          }`
+        )
         .then((res) => {
           const { code, codein, high, create_date } = res.data[coinTemplate];
           const [firstName, secoundName] = [
@@ -37,7 +41,9 @@ function App() {
             res.data[coinTemplate].name.split("/")[1],
           ];
           setDataCoins({
-            date: `${create_date.split(" ")[0].split("-")[2]}-${create_date.split(" ")[0].split("-")[1]}-${create_date.split(" ")[0].split("-")[0]}`,
+            date: `${create_date.split(" ")[0].split("-")[2]}-${
+              create_date.split(" ")[0].split("-")[1]
+            }-${create_date.split(" ")[0].split("-")[0]}`,
             firstInfo: `1 ${firstName}/${code} = ${high} ${secoundName}`,
             secoundInfo: `1 ${secoundName}/${codein} = ${(1 / high).toFixed(
               4
@@ -65,7 +71,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      'secound-value': (dataCoins.data[4] * value['first-value']).toFixed(3),
+      "secound-value": (dataCoins.data[4] * value["first-value"]).toFixed(3),
     }));
   }
 
@@ -77,7 +83,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      'first-value': (value['secound-value'] / dataCoins.data[4]).toFixed(3),
+      "first-value": (value["secound-value"] / dataCoins.data[4]).toFixed(3),
     }));
   }
 
@@ -92,16 +98,12 @@ function App() {
           <select
             name="first-coin"
             onChange={handleCoinChange}
-            value={coins['first-coin'] || "USD"}
+            value={coins["first-coin"] || "USD"}
           >
             {typeof allCoins !== "undefined" &&
               allCoins.map((e, y) => {
                 return (
-                  <OptionCoins
-                    key={y}
-                    value={e.abbreviation}
-                    name={e.abbreviation}
-                  />
+                  <OptionCoins key={y} value={e.abbreviation} name={e.name} />
                 );
               })}
           </select>
@@ -111,28 +113,30 @@ function App() {
             type="number"
             placeholder="10,00"
             onChange={handleUpdateSecoundValue}
-            value={value['first-value'] || ""}
+            value={value["first-value"] || ""}
           />
         </div>
 
         <div>
           <select
-            name='secound-coin'
+            name="secound-coin"
             onChange={handleCoinChange}
-            value={coins['secound-coin'] || "BRL"}
+            value={coins["secound-coin"] || "BRL"}
           >
             {typeof allCoins !== "undefined" &&
               allCoins.map((e, y) => {
-                return <OptionCoins key={y} value={e.abbreviation} />;
+                return (
+                  <OptionCoins key={y} value={e.abbreviation} name={e.name} />
+                );
               })}
           </select>
           <hr />
           <input
-            name='secound-value'
+            name="secound-value"
             type="number"
             placeholder="10,00"
             onChange={handleUpdateFirstValue}
-            value={value['secound-value'] || ""}
+            value={value["secound-value"] || ""}
           />
         </div>
       </div>
@@ -146,7 +150,7 @@ function App() {
               <span>
                 {typeof dataCoins !== "undefined" &&
                   `${dataCoins.data[0]}/${dataCoins.data[2]}`}{" "}
-                - {value['first-value'] || 0}
+                - {value["first-value"] || 0}
               </span>
             </div>
 
@@ -154,7 +158,7 @@ function App() {
               <span>
                 {typeof dataCoins !== "undefined" &&
                   `${dataCoins.data[1]}/${dataCoins.data[3]}`}{" "}
-                - {value['secound-value'] || 0}
+                - {value["secound-value"] || 0}
               </span>
             </div>
           </div>

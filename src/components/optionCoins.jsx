@@ -1,10 +1,10 @@
 import React from "react";
 
-function OptionCoins({ value }) {
+function OptionCoins({ value, name }) {
   return (
     <>
     <option value={value}>
-      {value}
+      {name}
     </option>
     </>
   );
