@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
-
-function CurrencyList({ value, name, handleCoinChange }) {
+function CurrencyList(props) {
   const [allCurrency, setAllCurrency] = useState([]);
 
   useEffect(() => {
@@ -19,7 +18,7 @@ function CurrencyList({ value, name, handleCoinChange }) {
   }, []);
 
   return (
-    <select name={name} onChange={handleCoinChange} value={value}>
+    <select {...props}>
       {typeof allCurrency !== "undefined" &&
         allCurrency.map((e, y) => {
           return (
