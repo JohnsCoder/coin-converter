@@ -1,10 +1,32 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
-function CurrencyList(props) {
-  const [allCurrency, setAllCurrency] = useState([]);
+
+type axiosResp = {
+  data: object;
+};
+type currencyList = {
+  abbreviation: string;
+  name: string;
+};
+
+type handleUpdates = {
+     target: {
+       name: string;
+       value: string;
+     };
+   };
+
+type props = {
+     name: string,
+     onChange: (e: handleUpdates) => void,
+     value: string
+}
+
+function CurrencyList(props: props) {
+  const [allCurrency, setAllCurrency] = useState<currencyList[]>([]);
 
   useEffect(() => {
-    api.get("/json/available/uniq").then((res) => {
+    api.get("/json/available/uniq").then((res: axiosResp) => {
       for (const i in Object.keys(res.data)) {
         setAllCurrency((allCoins) => [
           ...allCoins,

@@ -1,15 +1,54 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
+import "../styles/main/App.css";
 import "font-awesome/css/font-awesome.min.css";
-import api from "./services/api";
-import CurrencyList from "./components/currencyList";
+import api from "../services/api";
+import CurrencyList from "../components/currencyList";
+import { AxiosResponse } from "axios";
 
+type handleUpdates = {
+  target: {
+    name: string;
+    value: string;
+  };
+};
+
+type currencies = {
+  ["first-coin"]: string;
+  ["secound-coin"]: string;
+};
+
+type dataCurrency = {
+  date: string;
+  firstInfo: string;
+  secoundInfo: string;
+  data: [string, string, string, string, number, string];
+};
+
+type err = {
+  response: {
+    data: {
+      code: string;
+    };
+  };
+};
+type value = {
+  ["first-value"]?: number;
+  ["secound-value"]?: number;
+};
 function App() {
-  const [dataCurrency, setDataCurrency] = useState();
-  const [currencies, setCurrencies] = useState([]);
-  const [value, setValue] = useState([]);
+  const [dataCurrency, setDataCurrency] = useState<dataCurrency>({
+    date: "",
+    firstInfo: "",
+    secoundInfo: "",
+    data: ["", "", "", "", 1, ""],
+  });
+  const [currencies, setCurrencies] = useState<currencies>({
+    "first-coin": "",
+    "secound-coin": "",
+  });
+  const [value, setValue] = useState<value>({});
 
-  function handleCoinChange(e) {
+  function handleCoinChange(e: handleUpdates) {
     setCurrencies((coins) => ({
       ...coins,
       [e.target.name]: e.target.value,
@@ -24,7 +63,7 @@ function App() {
       ];
       api
         .get(`/last/${currencyTemplate[0]}-${currencyTemplate[1]}`)
-        .then((res) => {
+        .then((res: AxiosResponse) => {
           const { code, codein, high, create_date } =
             res.data[currencyTemplate.join("")];
           const [firstName, secoundName] = [
@@ -43,12 +82,12 @@ function App() {
             data: [firstName, secoundName, code, codein, high, create_date],
           });
         })
-        .catch((err) => alert(err.response.data.code));
+        .catch((err: err) => alert(err.response.data.code));
     }
     getInfo();
   }, [currencies]);
 
-  function handleUpdateSecoundValue(e) {
+  function handleUpdateSecoundValue(e: handleUpdates) {
     setValue((value) => ({
       ...value,
       [e.target.name]: e.target.value,
@@ -56,11 +95,11 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      "secound-value": (dataCurrency.data[4] * value["first-value"]).toFixed(3),
+      "secound-value": dataCurrency.data[4] * (value["first-value"] || 0),
     }));
   }
 
-  function handleUpdateFirstValue(e) {
+  function handleUpdateFirstValue(e: handleUpdates) {
     setValue((value) => ({
       ...value,
       [e.target.name]: e.target.value,
@@ -68,7 +107,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      "first-value": (value["secound-value"] / dataCurrency.data[4]).toFixed(3),
+      "first-value": (value["secound-value"] || 0) / dataCurrency.data[4],
     }));
   }
 
@@ -82,7 +121,7 @@ function App() {
         <div>
           <CurrencyList
             name="first-coin"
-            handleCoinChange={handleCoinChange}
+            onChange={handleCoinChange}
             value={currencies["first-coin"] || "USD"}
           />
           <hr />
@@ -98,7 +137,7 @@ function App() {
         <div>
           <CurrencyList
             name="secound-coin"
-            handleCoinChange={handleCoinChange}
+            onChange={handleCoinChange}
             value={currencies["secound-coin"] || "BRL"}
           />
           <hr />
@@ -120,7 +159,7 @@ function App() {
             <div>
               <span>
                 {typeof dataCurrency !== "undefined" &&
-                  `${dataCurrency.data[0]}/${dataCurrency.data[2]}`}{" "}
+                  `${dataCurrency.data[0]}/${dataCurrency.data[2]}`}
                 - {value["first-value"] || 0}
               </span>
             </div>
@@ -128,7 +167,7 @@ function App() {
             <div>
               <span>
                 {typeof dataCurrency !== "undefined" &&
-                  `${dataCurrency.data[1]}/${dataCurrency.data[3]}`}{" "}
+                  `${dataCurrency.data[1]}/${dataCurrency.data[3]}`}
                 - {value["secound-value"] || 0}
               </span>
             </div>
