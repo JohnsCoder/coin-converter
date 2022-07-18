@@ -37,20 +37,21 @@ function CurrencyList(props: props) {
         ]);
       }
     });
-  }, []);
+  }, [])
 
-  return (
-    <select {...props}>
-      {typeof allCurrency !== "undefined" &&
-        allCurrency.map((e, y) => {
-          return (
-            <option key={y} value={e.abbreviation}>
-              {e.name}
-            </option>
-          );
-        })}
-    </select>
-  );
-}
+
+    return (
+      <select {...props}>
+        {allCurrency.map((e, y) => {
+            return (
+              <option key={y} value={e.abbreviation}>
+                {e.name}
+              </option>
+            );
+          })}
+      </select>
+    );
+  }
+
 
 export default CurrencyList;

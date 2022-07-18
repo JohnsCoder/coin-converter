@@ -13,15 +13,22 @@ type handleUpdates = {
 };
 
 type currencies = {
-  ["first-coin"]: string;
-  ["secound-coin"]: string;
+  firstCoin: string;
+  secoundCoin: string;
 };
 
 type dataCurrency = {
   date: string;
   firstInfo: string;
   secoundInfo: string;
-  data: [string, string, string, string, number, string];
+  data: [
+    firstName: string,
+    secoundName: string,
+    code: string,
+    codein: string,
+    high: number,
+    create_date: string
+  ];
 };
 
 type err = {
@@ -32,9 +39,10 @@ type err = {
   };
 };
 type value = {
-  ["first-value"]?: number;
-  ["secound-value"]?: number;
+  firstCoin: number;
+  secoundCoin: number;
 };
+
 function App() {
   const [dataCurrency, setDataCurrency] = useState<dataCurrency>({
     date: "",
@@ -43,10 +51,13 @@ function App() {
     data: ["", "", "", "", 1, ""],
   });
   const [currencies, setCurrencies] = useState<currencies>({
-    "first-coin": "",
-    "secound-coin": "",
+    firstCoin: "",
+    secoundCoin: "",
   });
-  const [value, setValue] = useState<value>({});
+  const [value, setValue] = useState<value>({
+    firstCoin: NaN,
+    secoundCoin: NaN,
+  });
 
   function handleCoinChange(e: handleUpdates) {
     setCurrencies((coins) => ({
@@ -56,35 +67,33 @@ function App() {
   }
 
   useEffect(() => {
-    function getInfo() {
-      const currencyTemplate = [
-        `${currencies["first-coin"] || "USD"}`,
-        `${currencies["secound-coin"] || "BRL"}`,
-      ];
-      api
-        .get(`/last/${currencyTemplate[0]}-${currencyTemplate[1]}`)
-        .then((res: AxiosResponse) => {
-          const { code, codein, high, create_date } =
-            res.data[currencyTemplate.join("")];
-          const [firstName, secoundName] = [
-            res.data[currencyTemplate.join("")].name.split("/")[0],
-            res.data[currencyTemplate.join("")].name.split("/")[1],
-          ];
+    const currencyTemplate = [
+      `${currencies.firstCoin || "USD"}`,
+      `${currencies.secoundCoin || "BRL"}`,
+    ];
+    api
+      .get(`/last/${currencyTemplate[0]}-${currencyTemplate[1]}`)
+      .then((res: AxiosResponse) => {
+        const { code, codein, high, create_date } =
+          res.data[currencyTemplate.join("")];
+        const [firstName, secoundName] = [
+          res.data[currencyTemplate.join("")].name.split("/")[0],
+          res.data[currencyTemplate.join("")].name.split("/")[1],
+        ];
 
-          setDataCurrency({
-            date: `${create_date.split(" ")[0].split("-")[2]}-${
-              create_date.split(" ")[0].split("-")[1]
-            }-${create_date.split(" ")[0].split("-")[0]}`,
-            firstInfo: `1 ${firstName}/${code} = ${high} ${secoundName}`,
-            secoundInfo: `1 ${secoundName}/${codein} = ${(1 / high).toFixed(
-              4
-            )} ${firstName}`,
-            data: [firstName, secoundName, code, codein, high, create_date],
-          });
-        })
-        .catch((err: err) => alert(err.response.data.code));
-    }
-    getInfo();
+        setDataCurrency({
+          date: `${create_date.split(" ")[0].split("-")[2]}-${
+            create_date.split(" ")[0].split("-")[1]
+          }-${create_date.split(" ")[0].split("-")[0]}`,
+          firstInfo: `1 ${firstName}/${code} = ${high} ${secoundName}`,
+          secoundInfo: `1 ${secoundName}/${codein} = ${(1 / high).toFixed(
+            4
+          )} ${firstName}`,
+          data: [firstName, secoundName, code, codein, high, create_date],
+        });
+
+      })
+      .catch((err: err) => alert(err.response.data.code));
   }, [currencies]);
 
   function handleUpdateSecoundValue(e: handleUpdates) {
@@ -95,7 +104,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      "secound-value": dataCurrency.data[4] * (value["first-value"] || 0),
+      secoundCoin: dataCurrency.data[4] * (value.firstCoin || 1),
     }));
   }
 
@@ -107,7 +116,7 @@ function App() {
 
     setValue((value) => ({
       ...value,
-      "first-value": (value["secound-value"] || 0) / dataCurrency.data[4],
+      firstCoin: (value.secoundCoin || 1) / dataCurrency.data[4],
     }));
   }
 
@@ -120,33 +129,33 @@ function App() {
       <div className="coins">
         <div>
           <CurrencyList
-            name="first-coin"
+            name='firstCoin'
             onChange={handleCoinChange}
-            value={currencies["first-coin"] || "USD"}
+            value={currencies.firstCoin || "USD"}
           />
           <hr />
           <input
-            name="first-value"
+            name='firstCoin'
             type="number"
             placeholder="10,00"
             onChange={handleUpdateSecoundValue}
-            value={value["first-value"] || ""}
+            value={(value.firstCoin || '')}
           />
         </div>
 
         <div>
           <CurrencyList
-            name="secound-coin"
+            name='secoundCoin'
             onChange={handleCoinChange}
-            value={currencies["secound-coin"] || "BRL"}
+            value={currencies.secoundCoin || "BRL"}
           />
           <hr />
           <input
-            name="secound-value"
+            name='secoundCoin'
             type="number"
             placeholder="10,00"
             onChange={handleUpdateFirstValue}
-            value={value["secound-value"] || ""}
+            value={(value.secoundCoin || '')}
           />
         </div>
       </div>
@@ -158,30 +167,28 @@ function App() {
           <div>
             <div>
               <span>
-                {typeof dataCurrency !== "undefined" &&
-                  `${dataCurrency.data[0]}/${dataCurrency.data[2]}`}
-                - {value["first-value"] || 0}
+                {`${dataCurrency.data[0]}/${dataCurrency.data[2]}`}-
+                {value.firstCoin || 0}
               </span>
             </div>
 
             <div>
               <span>
-                {typeof dataCurrency !== "undefined" &&
-                  `${dataCurrency.data[1]}/${dataCurrency.data[3]}`}
-                - {value["secound-value"] || 0}
+                {`${dataCurrency.data[1]}/${dataCurrency.data[3]}`}-
+                {value.secoundCoin || 0}
               </span>
             </div>
           </div>
 
           <div>
             <span>
-              Data: {typeof dataCurrency !== "undefined" && dataCurrency.date}
+              Data: {dataCurrency.date}
             </span>
             <span>
-              {typeof dataCurrency !== "undefined" && dataCurrency.firstInfo}
+              {dataCurrency.firstInfo}
             </span>
             <span>
-              {typeof dataCurrency !== "undefined" && dataCurrency.secoundInfo}
+              {dataCurrency.secoundInfo}
             </span>
           </div>
         </div>
